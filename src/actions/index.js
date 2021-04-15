@@ -14,3 +14,24 @@ export const changeMessage = (message) => {
         message
     };
 };
+
+export const removeProduct = (product) => {
+    return {
+        type: types.REMOVE_PRODUCT,
+        product
+    };
+};
+
+export const increaseProduct = (product) => {
+    return {
+        type: types.INCREASE_PRODUCT,
+        product
+    };
+};
+
+export const decreaseProduct = (product) => {
+    return {
+        type: types.DECREASE_PRODUCT,
+        product
+    };
+};

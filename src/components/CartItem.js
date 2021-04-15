@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as MSG from './../constants/Messages';
 
 class CartItem extends Component {
     render() {
@@ -18,20 +19,33 @@ class CartItem extends Component {
                 <td className="center-on-small-only">
                     <span className="qty">{item.quantity}</span>
                     <div className="btn-group radio-group" data-toggle="buttons">
-                        <label className="btn btn-sm btn-primary btn-rounded waves-effect waves-light">
-                            <a href='/#'>—</a>
+                        <label
+                            className="btn btn-sm btn-primary btn-rounded waves-effect waves-light"
+                            onClick={() => this.onDecreaseProduct(item.product)}
+                        >
+                            <a>—</a>
                         </label>
-                        <label className="btn btn-sm btn-primary
-                                                btn-rounded waves-effect waves-light">
-                            <a href='/#'>+</a>
+                        <label
+                            className="btn btn-sm btn-primary btn-rounded waves-effect waves-light"
+                            onClick={() => this.onIncreaseProduct(item.product)}
+                        >
+                            <a>+</a>
                         </label>
                     </div>
                 </td>
                 <td>{this.showSubTotal(item.product.price, item.quantity)}$</td>
                 <td>
-                    <button type="button" className="btn btn-sm btn-primary waves-effect waves-light"
-                        data-toggle="tooltip" data-placement="top" title=""
-                        data-original-title="Remove item">X</button>
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-primary waves-effect waves-light"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title=""
+                        data-original-title="Remove item"
+                        onClick={() => this.onRemoveProduct(item.product)}
+                    >
+                        X
+                    </button>
                 </td>
             </tr>
         );
@@ -39,6 +53,24 @@ class CartItem extends Component {
 
     showSubTotal = (price, quantity) => {
         return price * quantity;
+    }
+
+    onRemoveProduct = (product) => {
+        var { onRemoveProduct } = this.props;
+        onRemoveProduct(product);
+        this.props.onChangeMessage(MSG.MSG_REMOVED_PRODUCT);
+    }
+    
+    onIncreaseProduct = (product) => {
+        var { onIncreaseProduct } = this.props;
+        onIncreaseProduct(product);
+        this.props.onChangeMessage(MSG.MSG_ADDED_PRODUCT);
+    }
+
+    onDecreaseProduct = (product) => {
+        var { onDecreaseProduct } = this.props;
+        onDecreaseProduct(product);
+        this.props.onChangeMessage(MSG.MSG_REMOVED_PRODUCT);
     }
 }
 

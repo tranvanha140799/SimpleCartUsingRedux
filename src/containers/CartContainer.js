@@ -5,6 +5,7 @@ import Cart from './../components/Cart';
 import CartItem from './../components/CartItem';
 import CartResult from './../components/CartResult';
 import * as MSG from './../constants/Messages';
+import { changeMessage, decreaseProduct, increaseProduct, removeProduct } from './../actions/index';
 
 class CartContainer extends Component {
     render() {
@@ -24,7 +25,15 @@ class CartContainer extends Component {
         </tr>;
         if (cart.length > 0) {
             result = cart.map((item, index) => {
-                return <CartItem key={index} item={item} index={index} />
+                return <CartItem
+                    key={index}
+                    item={item}
+                    index={index}
+                    onRemoveProduct={this.props.onRemoveProduct}
+                    onIncreaseProduct={this.props.onIncreaseProduct}
+                    onDecreaseProduct={this.props.onDecreaseProduct}
+                    onChangeMessage={this.props.onChangeMessage}
+                />
             });
         }
         return result;
@@ -62,4 +71,21 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(CartContainer);
+const mapDispatchToProps = (dispatchEvent, props) => {
+    return {
+        onRemoveProduct: (product) => {
+            dispatchEvent(removeProduct(product));
+        },
+        onIncreaseProduct: (product) => {
+            dispatchEvent(increaseProduct(product));
+        },
+        onDecreaseProduct: (product) => {
+            dispatchEvent(decreaseProduct(product));
+        },
+        onChangeMessage: (message) => {
+            dispatchEvent(changeMessage(message));
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartContainer);

@@ -17,6 +17,28 @@ const cart = (state = initialState, action) => {
 
             localStorage.setItem('CART', JSON.stringify(state));
             return [...state];
+        case types.REMOVE_PRODUCT:
+            index = findProductInCart(state, product);
+            if(index !== -1)
+                state.splice(index, 1);
+            localStorage.setItem('CART', JSON.stringify(state));
+            return [...state];
+        case types.INCREASE_PRODUCT:
+            index = findProductInCart(state, product);
+            if(index !== -1)
+                state[index].quantity++;
+            localStorage.setItem('CART', JSON.stringify(state));
+            return [...state];
+        case types.DECREASE_PRODUCT:
+            index = findProductInCart(state, product);
+            if(index !== -1) {
+                if(state[index].quantity > 1)
+                    state[index].quantity--;
+                else
+                    state.splice(index, 1);
+            }
+            localStorage.setItem('CART', JSON.stringify(state));
+            return [...state];
         default: return [...state];
     }
 };
